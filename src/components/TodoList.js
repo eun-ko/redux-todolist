@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Header from "./Header";
 import TodoItem from "./TodoItem";
+import TodoColorRadioButton from "./TodoColorRadioButton";
 import RemainTodoList from './RemainTodoList';
 import { addTodo, toggleTodo, deleteTodo, editTodo } from "../modules/TodosReducer";
 
@@ -14,25 +15,13 @@ height:24px;
 margin-right:16px;
 `;
 
-const ColorFilterRow = styled.div`
-display:flex;
-width:224px;
-justify-content:space-around;
-margin-left:10px;
-`;
 
-const ColorFilter = styled.div`
-width:24px;
-height:24px;
-border-radius:50%;
-border:${(props) => (props.selected ? '2px solid black' : 'none')};
-`;
 
 const Row = styled.div`
 width:100%;
 display:flex;
 justify-content:space-between;
-padding:15px 0;
+padding:15px 16px;
 `;
 
 const Input = styled.input`
@@ -46,7 +35,7 @@ border-radius:5px;
 
 const Title = styled.p`
 font-size:21px;
-margin-left:16px;
+
 display:flex;
 align-items:center;
 `;
@@ -79,10 +68,10 @@ margin-right:16px;
 `;
 
 
+
 export default function TodoList() {
     const [todoContent, setTodoContent] = useState('');
     const [colorFilter, setColorFilter] = useState('');
-    const [colorFilterSelected, setColorFilterSelected] = useState([false, false, false, false, false, false]);
     const [toggleButtonSelected, setToggleButtonSelected] = useState(false);
 
 
@@ -104,38 +93,10 @@ export default function TodoList() {
 
     const handleAddButton = (e) => {
         e.preventDefault();
-        if (colorFilterSelected.every((element) => element === false)) alert('색 필터를 설정해주세요!');
-        else if (todoContent === '') alert('내용을 입력해주세요!');
-        else {
-            onAddTodo(todoContent, colorFilter);
-            setTodoContent('');
-            setColorFilterSelected([false, false, false, false, false, false]);
-            setColorFilter('');
-            setToggleButtonSelected(false);
-        }
-    }
-
-    const handleColorFilterButton = (e) => {
-        const { target: { style: { backgroundColor } } } = e;
-        setColorFilter(backgroundColor);
-        if (backgroundColor === `rgb(255, 175, 176)`) {
-            colorFilterSelected[0] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([true, false, false, false, false, false]);
-        }
-        else if (backgroundColor === `rgb(255, 194, 130)`) {
-            colorFilterSelected[1] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([false, true, false, false, false, false]);
-        }
-        else if (backgroundColor === `rgb(252, 255, 176)`) {
-            colorFilterSelected[2] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([false, false, true, false, false, false]);
-        }
-        else if (backgroundColor === `rgb(226, 255, 175)`) {
-            colorFilterSelected[3] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([false, false, false, true, false, false]);
-        }
-        else if (backgroundColor === `rgb(174, 228, 255)`) {
-            colorFilterSelected[4] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([false, false, false, false, true, false]);
-        }
-        else if (backgroundColor === `rgb(181, 199, 237)`) {
-            colorFilterSelected[5] ? setColorFilterSelected([false, false, false, false, false, false]) : setColorFilterSelected([false, false, false, false, false, true]);
-        }
+        onAddTodo(todoContent, colorFilter);
+        setTodoContent('');
+        setColorFilter('');
+        setToggleButtonSelected(false);
     }
 
     return (
@@ -148,14 +109,9 @@ export default function TodoList() {
                         <AddButton onClick={handleAddButton}>추가하기</AddButton>
                     </Row>
                     <Row>
-                        <ColorFilterRow>
-                            <ColorFilter style={{ backgroundColor: '#ffafb0' }} selected={colorFilterSelected[0]} onClick={handleColorFilterButton}></ColorFilter>
-                            <ColorFilter style={{ backgroundColor: '#ffc282' }} selected={colorFilterSelected[1]} onClick={handleColorFilterButton}></ColorFilter>
-                            <ColorFilter style={{ backgroundColor: '#fcffb0' }} selected={colorFilterSelected[2]} onClick={handleColorFilterButton}></ColorFilter>
-                            <ColorFilter style={{ backgroundColor: '#e2ffaf' }} selected={colorFilterSelected[3]} onClick={handleColorFilterButton}></ColorFilter>
-                            <ColorFilter style={{ backgroundColor: '#aee4ff' }} selected={colorFilterSelected[4]} onClick={handleColorFilterButton}></ColorFilter>
-                            <ColorFilter style={{ backgroundColor: '#b5c7ed' }} selected={colorFilterSelected[5]} onClick={handleColorFilterButton}></ColorFilter>
-                        </ColorFilterRow>
+
+                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
+
                         <BroomIcon src="../assets/Icons/broomIcon.png" />
                     </Row>
                     <Input

@@ -1,0 +1,69 @@
+import React from 'react';
+import styled from "styled-components";
+import PropTypes from 'prop-types';
+
+export const TODOCOLORS = [
+    { name: 'RED', hex: '#ffafb0' },
+    { name: 'ORANGE', hex: '#ffc282' },
+    { name: 'YELLOW', hex: '#fcffb0' },
+    { name: 'GREEN', hex: '#e2ffaf' },
+    { name: 'BLUE', hex: '#aee4ff' },
+    { name: 'PURPLE', hex: '#b5c7ed' },
+]
+
+const ColorFilterRow = styled.div`
+display:flex;
+width:224px;
+justify-content:space-between;
+`;
+
+const Label = styled.label`
+display:inline-block;
+width:24px;
+height:24px;
+border-radius:50%;
+background-color:${(props) => props.color};
+`;
+
+
+const ColorFilter = styled.input`
+display:none; //radio button 안보이게
+&:checked + ${Label} {
+    background-color: ${(props) => props.color};
+    border:${(props) => (props.checked ? '2px solid black' : 'none')};
+}
+`;
+
+
+const TodoColorRadioButton = ({ colorFilter, setColorFilter }) => {
+
+    console.log(colorFilter);
+
+    const handleTodoColor = (e) => {
+        const { value } = e.target;
+        const selected = TODOCOLORS.filter((color) => color.name === value); //새 배열 반환
+        if (selected) {
+            setColorFilter(selected[0].hex);
+        }
+    }
+    return (
+        <ColorFilterRow>
+            {TODOCOLORS.map((color) => (
+                <div key={color.name}>
+                    <ColorFilter id={color.name} type="radio" name="color-selector" value={color.name} color={color.hex} checked={color.hex === colorFilter} onChange={handleTodoColor} />
+                    <Label htmlFor={color.name} color={color.hex}></Label>
+                </div>
+            ))}
+        </ColorFilterRow>
+
+    )
+}
+
+export default TodoColorRadioButton;
+
+TodoColorRadioButton.propTypes = {
+    colorFilter: PropTypes.shape({
+        name: PropTypes.string
+    }),
+    setColorFilter: PropTypes.func,
+}

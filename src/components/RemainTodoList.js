@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { TODOCOLORS } from "./TodoColorRadioButton";
+
 const RemainTodoWrapper = styled.div`
 width:100%;
 border-bottom:1px solid #e5e5e5;
@@ -18,6 +20,11 @@ width:16px;
 height:16px;
 border-radius:50%;
 margin:0 6px;
+background-color:${(props) => props.backgroundColor};
+`;
+
+const ColorCount = styled.div`
+margin:12px;
 `;
 
 const ColorWrapper = styled.div`
@@ -37,28 +44,33 @@ const RemainTodoList = ({ todos }) => {
     let purple = 0;
 
     const countTodoByColors = () => {
-
         todos.map((todo) => {
-            if (todo.todoColor === 'rgb(255, 175, 176)') red++;
-            else if (todo.todoColor === "rgb(255, 194, 130)") orange++;
-            else if (todo.todoColor === "rgb(252, 255, 176)") yellow++;
-            else if (todo.todoColor === "rgb(226, 255, 175)") green++;
-            else if (todo.todoColor === "rgb(174, 228, 255)") blue++;
-            else if (todo.todoColor === "rgb(181, 199, 237)") purple++;
+            if (todo.todoColor === TODOCOLORS[0].hex) red++;
+            else if (todo.todoColor === TODOCOLORS[1].hex) orange++;
+            else if (todo.todoColor === TODOCOLORS[2].hex) yellow++;
+            else if (todo.todoColor === TODOCOLORS[3].hex) green++;
+            else if (todo.todoColor === TODOCOLORS[4].hex) blue++;
+            else if (todo.todoColor === TODOCOLORS[5].hex) purple++;
         })
     }
+
     countTodoByColors();
+
     return (
         <RemainTodoWrapper>
             <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
             <ColorWrapper>
-                <Color style={{ backgroundColor: '#ffafb0' }}></Color> {red}개
-                <Color style={{ backgroundColor: '#ffc282' }} ></Color> {orange}개
-                <Color style={{ backgroundColor: '#fcffb0' }} ></Color> {yellow}개
-                <Color style={{ backgroundColor: '#e2ffaf' }} ></Color> {green}개
-                <Color style={{ backgroundColor: '#aee4ff' }} ></Color> {blue}개
-                <Color style={{ backgroundColor: '#b5c7ed' }} ></Color> {purple}개
+                {TODOCOLORS.map((color) => {
+                    return (
+                        <>
+                            <Color key={color.name} backgroundColor={color.hex} />
+                        </>
+                    )
+                })
+                }
+
             </ColorWrapper>
+            <ColorCount>{red}개 {orange}개 {yellow}개 {green}개{blue}개 {purple}개</ColorCount>
         </RemainTodoWrapper>
     )
 
