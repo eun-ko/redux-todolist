@@ -39,12 +39,12 @@ const RemainTodoList = ({ todos }) => {
     const countTodoByColors = () => {
 
         todos.map((todo) => {
-            if (todo.todoFilter === 'rgb(255, 175, 176)') red++;
-            else if (todo.todoFilter === "rgb(255, 194, 130)") orange++;
-            else if (todo.todoFilter === "rgb(252, 255, 176)") yellow++;
-            else if (todo.todoFilter === "rgb(226, 255, 175)") green++;
-            else if (todo.todoFilter === "rgb(174, 228, 255)") blue++;
-            else if (todo.todoFilter === "rgb(181, 199, 237)") purple++;
+            if (todo.todoColor === 'rgb(255, 175, 176)') red++;
+            else if (todo.todoColor === "rgb(255, 194, 130)") orange++;
+            else if (todo.todoColor === "rgb(252, 255, 176)") yellow++;
+            else if (todo.todoColor === "rgb(226, 255, 175)") green++;
+            else if (todo.todoColor === "rgb(174, 228, 255)") blue++;
+            else if (todo.todoColor === "rgb(181, 199, 237)") purple++;
         })
     }
     countTodoByColors();

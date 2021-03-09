@@ -3,14 +3,14 @@ const TOGGLE_TODO = 'todos/TOGGLE_TODO';
 const DELETE_TODO = 'todos/DELETE_TODO';
 const EDIT_TODO = 'todos/EDIT_TODO';
 
-let todoID = 1; //이렇게 전역변수보단 map할때 length나 이런값들 이용해서 할당해주기
+let todoID = 1;
 
-export const addTodo = (todoContent, todoFilter) => ({
+export const addTodo = (todoContent, todoColor) => ({
     type: ADD_TODO,
     todo: {
         id: todoID++,
         todoContent,
-        todoFilter,
+        todoColor,
         done: false
     }
 });
@@ -31,12 +31,12 @@ export const editTodo = (id) => ({
 })
 
 const initialState = [
-    //다음과 같이 구성된 객체를 이 배열안에 넣을 것
+    //다음과 같이 구성된 객체
     /*
     {
         id:1,
         todoContent:'예시',
-        todoFilter:'색',
+        todoColor:'색',
         done:false
     }
     

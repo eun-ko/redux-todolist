@@ -50,22 +50,22 @@ width:20px;
 `;
 
 const TodoRow = styled.div`
-width:100%;
+width:85%;
 display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo, onToggle, onDelete }) => {
+const TodoItem = ({ todo, onToggleTodo, onDeleteTodo }) => {
     return (
         <TodoWrapper done={todo.done}>
-            <TodoFilter todoColor={todo.todoFilter}></TodoFilter>
+            <TodoFilter todoColor={todo.todoColor}></TodoFilter>
             <TodoRow>
-                <TodoContent onClick={() => onToggle(todo.id)}>{todo.todoContent}</TodoContent>
+                <TodoContent onClick={() => onToggleTodo(todo.id)}>{todo.todoContent}</TodoContent>
                 <EditIcon src='../assets/Icons/editIcon.png' />
             </TodoRow>
             {todo.done &&
                 <IconRow>
-                    <DeleteIcon src='../assets/Icons/deleteIcon.png' onClick={() => onDelete(todo.id)} />
+                    <DeleteIcon src='../assets/Icons/deleteIcon.png' onClick={() => onDeleteTodo(todo.id)} />
                     <CheckIcon src='../assets/Icons/checkIcon.png' />
                 </IconRow>
             }
@@ -76,6 +76,6 @@ export default TodoItem;
 
 TodoItem.propTypes = {
     todo: PropTypes.object,
-    onToggle: PropTypes.func,
-    onDelete: PropTypes.func
+    onToggleTodo: PropTypes.func,
+    onDeleteTodo: PropTypes.func
 }
