@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import editIcon from '../assets/Icons/editIcon.png';
+import deleteIcon from '../assets/Icons/deleteIcon.png';
+import checkIcon from '../assets/Icons/checkIcon.png';
+
 const DeleteIcon = styled.img`
 width:14px;
 margin-right:13px;
@@ -61,12 +65,12 @@ const TodoItem = ({ todo, onToggleTodo, onDeleteTodo, onEditTodo }) => {
             <TodoFilter todoColor={todo.todoColor}></TodoFilter>
             <TodoRow>
                 <TodoContent onClick={() => onToggleTodo(todo.id)}>{todo.todoContent}</TodoContent>
-                <EditIcon src='../assets/Icons/editIcon.png' onClick={() => onEditTodo(todo.id)} />
+                <EditIcon src={editIcon} onClick={() => onEditTodo(todo.id)} />
             </TodoRow>
             {todo.done &&
                 <IconRow>
-                    <DeleteIcon src='../assets/Icons/deleteIcon.png' onClick={() => onDeleteTodo(todo.id,todo.todoColor)} />
-                    <CheckIcon src='../assets/Icons/checkIcon.png' />
+                    <DeleteIcon src={deleteIcon} onClick={() => onDeleteTodo(todo.id,todo.todoColor)} />
+                    <CheckIcon src={checkIcon} />
                 </IconRow>
             }
         </TodoWrapper>

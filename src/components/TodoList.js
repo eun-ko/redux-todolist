@@ -10,6 +10,8 @@ import RemainTodoList from './RemainTodoList';
 import { addTodo, toggleTodo, deleteTodo, editTodo } from "../modules/TodosReducer";
 import TODOCOLORS from '../constants/TodoColorList';
 
+import broomIcon from '../assets/Icons/broomIcon.png';
+
 const BroomIcon = styled.img`
 width:24px;
 height:24px;
@@ -112,7 +114,7 @@ export default function TodoList() {
                     </Row>
                     <Row>
                         <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
-                        <BroomIcon src="../assets/Icons/broomIcon.png" />
+                        <BroomIcon src={broomIcon} />
                     </Row>
                     <Input
                         value={todoContent}
