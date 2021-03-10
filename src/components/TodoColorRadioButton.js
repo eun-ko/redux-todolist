@@ -2,14 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 
-export const TODOCOLORS = [
-    { name: 'RED', hex: '#ffafb0' },
-    { name: 'ORANGE', hex: '#ffc282' },
-    { name: 'YELLOW', hex: '#fcffb0' },
-    { name: 'GREEN', hex: '#e2ffaf' },
-    { name: 'BLUE', hex: '#aee4ff' },
-    { name: 'PURPLE', hex: '#b5c7ed' },
-]
+import TODOCOLORS from "../constants/TodoColorList";
 
 const ColorFilterRow = styled.div`
 display:flex;

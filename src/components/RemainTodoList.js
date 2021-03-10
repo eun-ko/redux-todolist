@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { TODOCOLORS } from "./TodoColorRadioButton";
+import TODOCOLORS from "../constants/TodoColorList";
 
 const RemainTodoWrapper = styled.div`
 width:100%;
