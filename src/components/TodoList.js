@@ -15,8 +15,6 @@ height:24px;
 margin-right:16px;
 `;
 
-
-
 const Row = styled.div`
 width:100%;
 display:flex;
@@ -75,8 +73,13 @@ export default function TodoList() {
     const [toggleButtonSelected, setToggleButtonSelected] = useState(false);
 
 
-    const todos = useSelector(state => state);
+    const todos = useSelector(state => {
+        console.log('type of state:', typeof (state));
+        return state
+    });
     const dispatch = useDispatch();
+
+    console.log('type of todos:', typeof (todos));
 
     const onAddTodo = (todoContent, todoFilter) => dispatch(addTodo(todoContent, todoFilter));
     const onToggleTodo = useCallback(id => dispatch(toggleTodo(id)), [dispatch]);
@@ -109,9 +112,7 @@ export default function TodoList() {
                         <AddButton onClick={handleAddButton}>추가하기</AddButton>
                     </Row>
                     <Row>
-
-                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
-
+                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
                         <BroomIcon src="../assets/Icons/broomIcon.png" />
                     </Row>
                     <Input
@@ -134,7 +135,6 @@ export default function TodoList() {
                 </Wrapper>
             }
         </>
-
     );
 }
 

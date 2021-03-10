@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -23,10 +23,6 @@ margin:0 6px;
 background-color:${(props) => props.backgroundColor};
 `;
 
-const ColorCount = styled.div`
-margin:12px;
-`;
-
 const ColorWrapper = styled.div`
 display:flex;
 align-items:center;
@@ -35,42 +31,52 @@ margin-bottom:12px;
 `;
 
 const RemainTodoList = ({ todos }) => {
-    console.log(todos);
-    let red = 0;
-    let orange = 0;
-    let yellow = 0;
-    let green = 0;
-    let blue = 0;
-    let purple = 0;
+    const [colorCounts, setColors] = useState([]);
+
+    useEffect(() => {
+        countTodoByColors();
+    }, [colorCounts]);
+
 
     const countTodoByColors = () => {
+        //console.log(todos);
         todos.map((todo) => {
-            if (todo.todoColor === TODOCOLORS[0].hex) red++;
-            else if (todo.todoColor === TODOCOLORS[1].hex) orange++;
-            else if (todo.todoColor === TODOCOLORS[2].hex) yellow++;
-            else if (todo.todoColor === TODOCOLORS[3].hex) green++;
-            else if (todo.todoColor === TODOCOLORS[4].hex) blue++;
-            else if (todo.todoColor === TODOCOLORS[5].hex) purple++;
+            console.log('colorCounts', colorCounts);
+            const exists = colorCounts.find((color) => color.name === todo.todoColor);
+            if (exists) {
+                exists.count += 1;
+            } else {
+                console.log('해당 컬러가 아직 존재하지 않음');
+                colorCounts.push({ name: todo.todoColor, count: 1 });
+            }
+            setColors(colorCounts);
         })
     }
-
-    countTodoByColors();
 
     return (
         <RemainTodoWrapper>
             <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
             <ColorWrapper>
-                {TODOCOLORS.map((color) => {
+                {TODOCOLORS.map((todoColorConstant, index) => {
+                    console.log('index', index);
+                    console.log('colorCounts in TODOCOLORS map', colorCounts);
+                    const count = colorCounts.find((colorCount) => {
+                        console.log('colorCounts find start');
+                        console.log('colorCounts.name', colorCount.name);
+                        console.log('TODOCOLORS.hex', todoColorConstant.hex);
+                        return colorCount.name === todoColorConstant.hex;
+                    }
+                    );
+                    console.log('count', count);
                     return (
                         <>
-                            <Color key={color.name} backgroundColor={color.hex} />
+                            <Color key={todoColorConstant.name} backgroundColor={todoColorConstant.hex} /> {count ? count.count : 0}개
                         </>
                     )
                 })
                 }
-
             </ColorWrapper>
-            <ColorCount>{red}개 {orange}개 {yellow}개 {green}개{blue}개 {purple}개</ColorCount>
+
         </RemainTodoWrapper>
     )
 

@@ -47,7 +47,11 @@ const TodosReducer = (state = initialState, action) => {
     console.log(action.type);
     switch (action.type) {
         case ADD_TODO:
-            return state.concat(action.todo);
+            {
+                console.log(action.todo);
+                return state.concat(action.todo);
+            }
+
         case TOGGLE_TODO:
             return state.map(
                 todo =>
@@ -58,7 +62,16 @@ const TodosReducer = (state = initialState, action) => {
         case DELETE_TODO:
             return state.filter(todo => todo.id !== action.id);
         case EDIT_TODO:
-            return state.filter(todo => todo.id === action.id);
+            return {
+                ...state
+            }
+        /*{
+            console.log(action.todo);
+            const a = state.findIndex(todo => todo.id === action.id);
+            state[a] = action.todo;
+            return state;
+        }*/
+
         default:
             return state;
     }

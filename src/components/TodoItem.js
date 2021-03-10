@@ -55,13 +55,14 @@ display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo, onToggleTodo, onDeleteTodo }) => {
+const TodoItem = ({ todo, onToggleTodo, onDeleteTodo, onEditTodo }) => {
+
     return (
         <TodoWrapper done={todo.done}>
             <TodoFilter todoColor={todo.todoColor}></TodoFilter>
             <TodoRow>
                 <TodoContent onClick={() => onToggleTodo(todo.id)}>{todo.todoContent}</TodoContent>
-                <EditIcon src='../assets/Icons/editIcon.png' />
+                <EditIcon src='../assets/Icons/editIcon.png' onClick={() => onEditTodo(todo.id)} />
             </TodoRow>
             {todo.done &&
                 <IconRow>
@@ -77,5 +78,10 @@ export default TodoItem;
 TodoItem.propTypes = {
     todo: PropTypes.object,
     onToggleTodo: PropTypes.func,
-    onDeleteTodo: PropTypes.func
+    onDeleteTodo: PropTypes.func,
+    onEditTodo: PropTypes.func,
+    editSelected: PropTypes.bool,
+    setEditSelected: PropTypes.func,
+    todoContent: PropTypes.string,
+    colorFilter: PropTypes.string
 }
