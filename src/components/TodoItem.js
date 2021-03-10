@@ -18,7 +18,6 @@ color:${(props) => (props.done ? '#c6c4c4' : 'black')};
 &:hover{
     cursor:pointer;
 }
-
 `;
 
 const TodoFilter = styled.div`
@@ -66,7 +65,7 @@ const TodoItem = ({ todo, onToggleTodo, onDeleteTodo, onEditTodo }) => {
             </TodoRow>
             {todo.done &&
                 <IconRow>
-                    <DeleteIcon src='../assets/Icons/deleteIcon.png' onClick={() => onDeleteTodo(todo.id)} />
+                    <DeleteIcon src='../assets/Icons/deleteIcon.png' onClick={() => onDeleteTodo(todo.id,todo.todoColor)} />
                     <CheckIcon src='../assets/Icons/checkIcon.png' />
                 </IconRow>
             }

@@ -6,8 +6,9 @@ import Header from "./Header";
 import TodoItem from "./TodoItem";
 import TodoColorRadioButton from "./TodoColorRadioButton";
 import RemainTodoList from './RemainTodoList';
-import { addTodo, toggleTodo, deleteTodo, editTodo } from "../modules/TodosReducer";
 
+import { addTodo, toggleTodo, deleteTodo, editTodo } from "../modules/TodosReducer";
+import TODOCOLORS from '../constants/TodoColorList';
 
 const BroomIcon = styled.img`
 width:24px;
@@ -33,7 +34,6 @@ border-radius:5px;
 
 const Title = styled.p`
 font-size:21px;
-
 display:flex;
 align-items:center;
 `;
@@ -45,7 +45,6 @@ display:flex;
 flex-direction:column;
 justify-content:space-between;
 `;
-
 
 const ToggleButton = styled.button`
 font-size:32px;
@@ -73,20 +72,16 @@ export default function TodoList() {
     const [toggleButtonSelected, setToggleButtonSelected] = useState(false);
 
 
-    const todos = useSelector(state => {
-        console.log('type of state:', typeof (state));
-        return state
-    });
+    const todos = useSelector(state => state);
     const dispatch = useDispatch();
 
-    console.log('type of todos:', typeof (todos));
-
     const onAddTodo = (todoContent, todoFilter) => dispatch(addTodo(todoContent, todoFilter));
-    const onToggleTodo = useCallback(id => dispatch(toggleTodo(id)), [dispatch]);
-    const onDeleteTodo = (id) => dispatch(deleteTodo(id));
+    const onToggleTodo = useCallback((id) => dispatch(toggleTodo(id)), [dispatch]);
+    const onDeleteTodo = (id,todoColor) =>  {
+        const selectedTodoColor=TODOCOLORS.find((color)=>color.hex===todoColor);
+        selectedTodoColor.count-=1;
+        return dispatch(deleteTodo(id,todoColor))};
     const onEditTodo = (id) => dispatch(editTodo(id));
-
-
 
     const handleTodoInput = e => setTodoContent(e.target.value);
 
@@ -97,6 +92,10 @@ export default function TodoList() {
     const handleAddButton = (e) => {
         e.preventDefault();
         onAddTodo(todoContent, colorFilter);
+        if(colorFilter){
+            const selectedColor=TODOCOLORS.find((color)=>color.hex===colorFilter)
+            selectedColor.count+=1;
+        }
         setTodoContent('');
         setColorFilter('');
         setToggleButtonSelected(false);
