@@ -32,10 +32,8 @@ const TodoColorRadioButton = ({ colorFilter, setColorFilter,selectedTodo }) => {
 
     const handleTodoColor = (e) => {
         const { value } = e.target;
-        const selected = TODOCOLORS.filter((color) => color.name === value); //새 배열 반환
-        if (selected) {
-            setColorFilter(selected[0].hex);
-        }
+        const selectedColor = TODOCOLORS.find((color) => color.name === value);
+        setColorFilter(selectedColor.hex);
     }
 
     return (
