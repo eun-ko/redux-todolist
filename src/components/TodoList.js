@@ -4,49 +4,10 @@ import styled from 'styled-components';
 
 import Header from "./Header";
 import TodoItem from "./TodoItem";
-import TodoColorRadioButton from "./TodoColorRadioButton";
 import RemainTodoList from './RemainTodoList';
-
+import TodoEditor from './TodoEditor';
 import { addTodo, toggleTodo, deleteTodo, editTodo } from "../modules/TodosReducer";
 import TODOCOLORS from '../constants/TodoColorList';
-
-import broomIcon from '../assets/Icons/broomIcon.png';
-
-const BroomIcon = styled.img`
-width:24px;
-height:24px;
-margin-right:16px;
-`;
-
-const Row = styled.div`
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:15px 16px;
-`;
-
-const Input = styled.input`
-width:343px;
-height:300px;
-border:1px solid #c6c4c4;
-margin:12px 16px;
-padding:12px;
-border-radius:5px;
-`;
-
-const Title = styled.p`
-font-size:21px;
-display:flex;
-align-items:center;
-`;
-
-const Wrapper = styled.div`
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-`;
 
 const ToggleButton = styled.button`
 font-size:32px;
@@ -59,13 +20,13 @@ margin:0 auto;
 margin-top:70px;
 `;
 
-const AddButton = styled.button`
-width:68px;
-height:24px;
-padding: 4px 8px;
-margin-right:16px;
+const Wrapper = styled.div`
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
 `;
-
 
 
 export default function TodoList() {
@@ -131,44 +92,13 @@ export default function TodoList() {
                 ?
                 <>
                     {editButtonSelected ?
-                    <Wrapper>
-                    <Header text="수정하기"></Header>
-                    <Row>
-                        <Title>Edit Todo</Title>
-                        <AddButton onClick={handleEditButton}>수정하기</AddButton>
-                    </Row>
-                    <Row>
-                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
-                        <BroomIcon src={broomIcon} />
-                    </Row>
-                    <Input
-                        value={todoContent}
-                        onChange={handleTodoInput}
-                    />
-                    <ToggleButton onClick={handleToggleButton}>-</ToggleButton>
-                    </Wrapper>
+                    <TodoEditor text="수정하기" title="Edit Todo" handleButton={handleEditButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}}/>
                     : 
-                    <Wrapper>
-                        <Header text="추가하기"></Header>
-                        <Row>
-                            <Title>Add Todo</Title>
-                            <AddButton onClick={handleAddButton}>추가하기</AddButton>
-                        </Row>
-                        <Row>
-                            <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
-                            <BroomIcon src={broomIcon} />
-                        </Row>
-                        <Input
-                            value={todoContent}
-                            onChange={handleTodoInput}
-                        />
-                        <ToggleButton onClick={handleToggleButton}>-</ToggleButton>
-                    </Wrapper>
+                    <TodoEditor text="추가하기" title="Add Todo" handleButton={handleAddButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}}/>
                     }   
                 </> 
                 :
                 <Wrapper>
-
                     <Header text='투-두 리스트' />
                     <RemainTodoList {...{ todos }} />
                     <>
@@ -180,9 +110,6 @@ export default function TodoList() {
                 </Wrapper>
             }
             </>
-            
-            
-        
     );
 }
 
