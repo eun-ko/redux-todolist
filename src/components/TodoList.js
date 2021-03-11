@@ -36,6 +36,7 @@ export default function TodoList() {
     const [editButtonSelected,setEditButtonSelected]=useState(false);
     const [selectedTodoID,setSelectedTodoID]=useState(0);
     const [selectedTodoColor,setSelectedTodoColor]=useState('');
+    const [selectedTodo,setSelectedTodo]=useState();
 
     const todos = useSelector(state => state);
     const dispatch = useDispatch();
@@ -92,9 +93,9 @@ export default function TodoList() {
                 ?
                 <>
                     {editButtonSelected ?
-                    <TodoEditor text="수정하기" title="Edit Todo" handleButton={handleEditButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}}/>
+                    <TodoEditor text="수정하기" title="Edit Todo" handleButton={handleEditButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}} {...{selectedTodo}} />
                     : 
-                    <TodoEditor text="추가하기" title="Add Todo" handleButton={handleAddButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}}/>
+                    <TodoEditor text="추가하기" title="Add Todo" handleButton={handleAddButton} {...{colorFilter}} {...{setColorFilter}} {...{todoContent}} {...{handleTodoInput}} {...{handleToggleButton}} {...{selectedTodo}} />
                     }   
                 </> 
                 :
@@ -103,13 +104,14 @@ export default function TodoList() {
                     <RemainTodoList {...{ todos }} />
                     <>
                         {todos.map(todo => (
-                            <TodoItem key={todo.id} {...{ todo }} {...{ onToggleTodo }} {...{onDeleteTodo}} {...{setToggleButtonSelected}} {...{editButtonSelected}} {...{setEditButtonSelected}} {...{selectedTodoID}} {...{setSelectedTodoID}}  {...{setSelectedTodoColor}}/>
+                            <TodoItem key={todo.id} {...{ todo }} {...{ onToggleTodo }} {...{onDeleteTodo}} {...{setToggleButtonSelected}} {...{editButtonSelected}} {...{setEditButtonSelected}} {...{selectedTodoID}} {...{setSelectedTodoID}}  {...{setSelectedTodoColor}} {...{setSelectedTodo}}/>
                         ))}
                     </>
                     <ToggleButton onClick={handleToggleButton}>+</ToggleButton>
                 </Wrapper>
             }
             </>
+
     );
 }
 

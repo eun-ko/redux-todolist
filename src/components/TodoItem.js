@@ -58,11 +58,11 @@ display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo, onToggleTodo,setToggleButtonSelected, onDeleteTodo,editButtonSelected,setEditButtonSelected,setSelectedTodoID,setSelectedTodoColor }) => {
+const TodoItem = ({ todo, onToggleTodo,setToggleButtonSelected, onDeleteTodo,editButtonSelected,setEditButtonSelected,setSelectedTodoID,setSelectedTodoColor,setSelectedTodo }) => {
 
     const handleEditIcon=(e)=>{
         e.preventDefault();
-
+        setSelectedTodo(todo);
         setSelectedTodoID(todo.id);
         setSelectedTodoColor(todo.todoColor);
         setToggleButtonSelected(true);
@@ -95,6 +95,7 @@ TodoItem.propTypes = {
     editButtonSelected: PropTypes.bool,
     setEditButtonSelected: PropTypes.func,
     setSelectedTodoID: PropTypes.func,
-    setSelectedTodoColor: PropTypes.func
+    setSelectedTodoColor: PropTypes.func,
+    setSelectedTodo:PropTypes.func
     
 }

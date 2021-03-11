@@ -28,7 +28,7 @@ display:none;
 `;
 
 
-const TodoColorRadioButton = ({ colorFilter, setColorFilter }) => {
+const TodoColorRadioButton = ({ colorFilter, setColorFilter,selectedTodo }) => {
 
     const handleTodoColor = (e) => {
         const { value } = e.target;
@@ -37,11 +37,12 @@ const TodoColorRadioButton = ({ colorFilter, setColorFilter }) => {
             setColorFilter(selected[0].hex);
         }
     }
+
     return (
         <ColorFilterRow>
             {TODOCOLORS.map((color) => (
                 <div key={color.name}>
-                    <ColorFilter id={color.name} type="radio" name="color-selector" value={color.name} color={color.hex} checked={color.hex === colorFilter} onChange={handleTodoColor} />
+                    <ColorFilter id={color.name} type="radio" name="color-selector" value={color.name} color={color.hex} checked={selectedTodo && color.hex===selectedTodo.todoColor || color.hex===colorFilter} onChange={handleTodoColor} />
                     <Label htmlFor={color.name} color={color.hex}></Label>
                 </div>
             ))}
@@ -55,4 +56,5 @@ export default TodoColorRadioButton;
 TodoColorRadioButton.propTypes = {
     colorFilter: PropTypes.string,
     setColorFilter: PropTypes.func,
+    selectedTodo:PropTypes.object
 }

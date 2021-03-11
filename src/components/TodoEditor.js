@@ -60,7 +60,7 @@ padding: 4px 8px;
 margin-right:16px;
 `;
 
-const TodoEditor=({text,title,handleButton,colorFilter,setColorFilter,todoContent,handleTodoInput,handleToggleButton})=>{
+const TodoEditor=({text,title,handleButton,colorFilter,setColorFilter,todoContent,handleTodoInput,handleToggleButton,selectedTodo})=>{
     return(
         <Wrapper>
             <Header text={text}></Header>
@@ -69,11 +69,11 @@ const TodoEditor=({text,title,handleButton,colorFilter,setColorFilter,todoConten
                 <AddButton onClick={handleButton}>{text}</AddButton>
             </Row>
             <Row>
-                <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
+                <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{selectedTodo}}/>
                 <BroomIcon src={broomIcon} />
             </Row>
             <Input
-                value={todoContent}
+                defaultValue={selectedTodo ? selectedTodo.todoContent : todoContent}
                 onChange={handleTodoInput}
             />
             <ToggleButton onClick={handleToggleButton}>-</ToggleButton>               
@@ -90,5 +90,6 @@ TodoEditor.propTypes = {
     setColorFilter: PropTypes.func,
     todoContent: PropTypes.string,
     handleTodoInput: PropTypes.func,
-    handleToggleButton: PropTypes.func
+    handleToggleButton: PropTypes.func,
+    selectedTodo:PropTypes.object
 }
