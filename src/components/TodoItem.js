@@ -3,10 +3,13 @@ import {  useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { toggleTodo,deleteTodo } from "../modules/TodosReducer";
+import { togglePage } from "../modules/PageToggleReducer";
+
 import editIcon from '../assets/Icons/editIcon.png';
 import deleteIcon from '../assets/Icons/deleteIcon.png';
 import checkIcon from '../assets/Icons/checkIcon.png';
-import { toggleTodo,deleteTodo } from "../modules/TodosReducer";
+
 import TODOCOLORS from '../constants/TodoColorList';
 
 const DeleteIcon = styled.img`
@@ -61,7 +64,7 @@ display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo,setToggleButtonSelected,editButtonSelected,setEditButtonSelected,setSelectedTodo }) => {
+const TodoItem = ({ todo,editButtonSelected,setEditButtonSelected,setSelectedTodo }) => {
 
     const dispatch = useDispatch();
 
@@ -73,13 +76,15 @@ const TodoItem = ({ todo,setToggleButtonSelected,editButtonSelected,setEditButto
         dispatch(deleteTodo(id,todoColor))
     };
 
+    const handlePageToggle=()=>dispatch(togglePage());
+
     const handleEditIcon=(e)=>{
         e.preventDefault();
         setSelectedTodo(todo);
-        setToggleButtonSelected(true);
+        handlePageToggle();
         setEditButtonSelected(!editButtonSelected);
     }
-   
+
     return (
         <TodoWrapper done={todo.done}>
             <TodoFilter todoColor={todo.todoColor}></TodoFilter>
@@ -100,9 +105,7 @@ export default TodoItem;
 
 TodoItem.propTypes = {
     todo: PropTypes.object,
-    setToggleButtonSelected: PropTypes.func,
     editButtonSelected: PropTypes.bool,
     setEditButtonSelected: PropTypes.func,
-    setSelectedTodo:PropTypes.func
-    
+    setSelectedTodo:PropTypes.func   
 }

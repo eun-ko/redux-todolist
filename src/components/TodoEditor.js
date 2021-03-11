@@ -3,12 +3,14 @@ import {  useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { addTodo, editTodo } from "../modules/TodosReducer";
+import { togglePage } from "../modules/PageToggleReducer";
+
 import Header from './Header';
 import TodoColorRadioButton from './TodoColorRadioButton';
 
 import broomIcon from '../assets/Icons/broomIcon.png';
 
-import { addTodo, editTodo } from "../modules/TodosReducer";
 import TODOCOLORS from '../constants/TodoColorList';
 
 const BroomIcon = styled.img`
@@ -65,7 +67,7 @@ padding: 4px 8px;
 margin-right:16px;
 `;
 
-const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSelected,setEditButtonSelected})=>{
+const TodoEditor=({text,title,selectedTodo,setEditButtonSelected})=>{
 
     const [todoContent, setTodoContent] = useState('');
     const [colorFilter, setColorFilter] = useState('');
@@ -74,6 +76,8 @@ const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSel
 
     const onAddTodo = (todoContent, todoFilter) => dispatch(addTodo(todoContent, todoFilter));
     const onEditTodo = (id,todoContent,todoFilter) => dispatch(editTodo(id,todoContent,todoFilter));
+
+    const handlePageToggle=()=>dispatch(togglePage());
 
     const handleAddButton = (e) => {
         e.preventDefault();
@@ -84,7 +88,7 @@ const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSel
         }
         setTodoContent('');
         setColorFilter('');
-        setToggleButtonSelected(false);
+        handlePageToggle();
     }
 
     const handleEditButton=(e)=>{
@@ -94,7 +98,7 @@ const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSel
         setColorFilter('');        
 
         setEditButtonSelected(false);
-        setToggleButtonSelected(false);
+        handlePageToggle();
 
         const originalTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===selectedTodo.todoColor);
         originalTodoColor.count-=1;
@@ -120,7 +124,7 @@ const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSel
                 defaultValue={selectedTodo ? selectedTodo.todoContent : todoContent}
                 onChange={handleTodoInput}
             />
-            <ToggleButton onClick={handleToggleButton}>-</ToggleButton>               
+            <ToggleButton onClick={handlePageToggle}>-</ToggleButton>               
         </Wrapper>
     )
 }
@@ -129,8 +133,6 @@ export default TodoEditor;
 TodoEditor.propTypes = {
     text: PropTypes.string,
     title:PropTypes.string,
-    handleToggleButton: PropTypes.func,
     selectedTodo:PropTypes.object,
-    setToggleButtonSelected: PropTypes.func,
     setEditButtonSelected: PropTypes.func
 }

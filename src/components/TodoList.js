@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Header from "./Header";
 import TodoItem from "./TodoItem";
 import RemainTodoList from './RemainTodoList';
 import TodoEditor from './TodoEditor';
+
+import {togglePage} from "../modules/PageToggleReducer";
 
 const ToggleButton = styled.button`
 font-size:32px;
@@ -28,30 +30,29 @@ justify-content:space-between;
 
 
 export default function TodoList() {
-    const [toggleButtonSelected, setToggleButtonSelected] = useState(false);
     const [editButtonSelected,setEditButtonSelected]=useState(false);
     const [selectedTodo,setSelectedTodo]=useState();
 
+    const dispatch=useDispatch();
     const todos = useSelector(state => state.TodosReducer);
+    const toggleButtonSelected=useSelector(state=>state.PageToggleReducer);
 
-    const handleToggleButton = () => {
-        setToggleButtonSelected(!toggleButtonSelected);
-    }
+    const handlePageToggle=()=>dispatch(togglePage());
 
     return (
             toggleButtonSelected 
             ?
                 editButtonSelected 
-                ? <TodoEditor text="수정하기" title="Edit Todo" handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
-                : <TodoEditor text="추가하기" title="Add Todo"  handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />    
+                ? <TodoEditor text="수정하기" title="Edit Todo" selectedTodo={selectedTodo} setEditButtonSelected={setEditButtonSelected} />
+                : <TodoEditor text="추가하기" title="Add Todo" selectedTodo={selectedTodo} setEditButtonSelected={setEditButtonSelected} />    
             :
                 <Wrapper>
                     <Header text='투-두 리스트' />
                     <RemainTodoList todos={todos} /> 
                     {todos.map(todo => (
-                        <TodoItem key={todo.id} todo={todo}  setToggleButtonSelected={setToggleButtonSelected} editButtonSelected={editButtonSelected} setEditButtonSelected={setEditButtonSelected} setSelectedTodo={setSelectedTodo}/>
+                        <TodoItem key={todo.id} todo={todo} editButtonSelected={editButtonSelected} setEditButtonSelected={setEditButtonSelected} setSelectedTodo={setSelectedTodo}/>
                     ))}
-                    <ToggleButton onClick={handleToggleButton}>+</ToggleButton>
+                    <ToggleButton onClick={handlePageToggle}>+</ToggleButton>
                 </Wrapper>
     );
 }
