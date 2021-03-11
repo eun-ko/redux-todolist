@@ -20,7 +20,7 @@ background-color:${(props) => props.color};
 
 
 const ColorFilter = styled.input`
-display:none; //radio button 안보이게
+display:none;
 &:checked + ${Label} {
     background-color: ${(props) => props.color};
     border:${(props) => (props.checked ? '2px solid black' : 'none')};
@@ -29,8 +29,6 @@ display:none; //radio button 안보이게
 
 
 const TodoColorRadioButton = ({ colorFilter, setColorFilter }) => {
-
-    console.log(colorFilter);
 
     const handleTodoColor = (e) => {
         const { value } = e.target;
