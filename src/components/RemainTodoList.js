@@ -52,7 +52,7 @@ const RemainTodoList = ({ todos }) => {
 export default RemainTodoList;
 
 RemainTodoList.propTypes = {
-    todos: PropTypes.object
+    todos: PropTypes.array
 }
 
 

@@ -124,7 +124,7 @@ export default function TodoList() {
         const editedTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===colorFilter);
         editedTodoColor.count+=1; 
     }
-        
+
     return (
         <>
             {toggleButtonSelected 
@@ -138,7 +138,7 @@ export default function TodoList() {
                         <AddButton onClick={handleEditButton}>수정하기</AddButton>
                     </Row>
                     <Row>
-                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
+                        <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
                         <BroomIcon src={broomIcon} />
                     </Row>
                     <Input
@@ -155,7 +155,7 @@ export default function TodoList() {
                             <AddButton onClick={handleAddButton}>추가하기</AddButton>
                         </Row>
                         <Row>
-                            <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
+                            <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} />
                             <BroomIcon src={broomIcon} />
                         </Row>
                         <Input

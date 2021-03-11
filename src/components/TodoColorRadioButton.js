@@ -53,8 +53,6 @@ const TodoColorRadioButton = ({ colorFilter, setColorFilter }) => {
 export default TodoColorRadioButton;
 
 TodoColorRadioButton.propTypes = {
-    colorFilter: PropTypes.shape({
-        name: PropTypes.string
-    }),
+    colorFilter: PropTypes.string,
     setColorFilter: PropTypes.func,
 }
