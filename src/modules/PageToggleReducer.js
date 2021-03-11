@@ -1,17 +1,17 @@
-const TOGGLE_PAGE='pages/TOGGLE_PAGE'
+const TOGGLE_PAGE = 'pages/TOGGLE_PAGE';
 
-export const togglePage=()=>({
-    type:TOGGLE_PAGE
-})
+export const togglePage = () => ({
+  type: TOGGLE_PAGE,
+});
 
-const initialState=false;
+const initialState = false;
 
-const PageToggleReducer=(state=initialState,action)=>{
-    switch(action.type){
-        case TOGGLE_PAGE:
-            return !state;
-        default:
-            return state;
-    }
-}
+const PageToggleReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TOGGLE_PAGE:
+      return !state;
+    default:
+      return state;
+  }
+};
 export default PageToggleReducer;

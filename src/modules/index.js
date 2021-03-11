@@ -4,7 +4,7 @@ import PageToggleReducer from './PageToggleReducer';
 
 const rootReducer = combineReducers({
   TodosReducer,
-  PageToggleReducer
+  PageToggleReducer,
 });
 
 export default rootReducer;
