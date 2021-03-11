@@ -39,17 +39,12 @@ export default function TodoList() {
     }
 
     return (
-        <>
-            {toggleButtonSelected 
-                ?
-                <>
-                    {editButtonSelected ?
-                    <TodoEditor text="수정하기" title="Edit Todo" handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
-                    : 
-                    <TodoEditor text="추가하기" title="Add Todo"  handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
-                    }   
-                </> 
-                :
+            toggleButtonSelected 
+            ?
+                editButtonSelected 
+                ? <TodoEditor text="수정하기" title="Edit Todo" handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
+                : <TodoEditor text="추가하기" title="Add Todo"  handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />    
+            :
                 <Wrapper>
                     <Header text='투-두 리스트' />
                     <RemainTodoList todos={todos} /> 
@@ -58,9 +53,6 @@ export default function TodoList() {
                     ))}
                     <ToggleButton onClick={handleToggleButton}>+</ToggleButton>
                 </Wrapper>
-            }
-            </>
-
     );
 }
 

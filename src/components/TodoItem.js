@@ -100,13 +100,9 @@ export default TodoItem;
 
 TodoItem.propTypes = {
     todo: PropTypes.object,
-    onToggleTodo: PropTypes.func,
-    onDeleteTodo: PropTypes.func,
     setToggleButtonSelected: PropTypes.func,
     editButtonSelected: PropTypes.bool,
     setEditButtonSelected: PropTypes.func,
-    setSelectedTodoID: PropTypes.func,
-    setSelectedTodoColor: PropTypes.func,
     setSelectedTodo:PropTypes.func
     
 }

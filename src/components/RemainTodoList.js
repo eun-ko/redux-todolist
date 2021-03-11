@@ -35,16 +35,13 @@ const RemainTodoList = ({ todos }) => {
         <RemainTodoWrapper>
             <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
             <ColorWrapper>
-                {TODOCOLORS.map((todoColorConstant) => {
-                    return (
-                        <>
-                            <Color key={todoColorConstant.name} backgroundColor={todoColorConstant.hex} /> {todoColorConstant.count}개
-                        </>
-                    )
-                })
+                {TODOCOLORS.map((todoColorConstant) =>
+                <>
+                    <Color key={todoColorConstant.name} backgroundColor={todoColorConstant.hex} /> {todoColorConstant.count}개
+                </>
+                )
                 }
             </ColorWrapper>
-
         </RemainTodoWrapper>
     )
 
