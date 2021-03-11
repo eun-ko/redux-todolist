@@ -44,17 +44,17 @@ export default function TodoList() {
                 ?
                 <>
                     {editButtonSelected ?
-                    <TodoEditor text="수정하기" title="Edit Todo" {...{handleToggleButton}} {...{selectedTodo}} {...{setToggleButtonSelected}} {...{setEditButtonSelected}} />
+                    <TodoEditor text="수정하기" title="Edit Todo" handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
                     : 
-                    <TodoEditor text="추가하기" title="Add Todo"  {...{handleToggleButton}} {...{selectedTodo}} {...{setToggleButtonSelected}} {...{setEditButtonSelected}} />
+                    <TodoEditor text="추가하기" title="Add Todo"  handleToggleButton={handleToggleButton} selectedTodo={selectedTodo} setToggleButtonSelected={setToggleButtonSelected} setEditButtonSelected={setEditButtonSelected} />
                     }   
                 </> 
                 :
                 <Wrapper>
                     <Header text='투-두 리스트' />
-                    <RemainTodoList {...{ todos }} /> 
+                    <RemainTodoList todos={todos} /> 
                     {todos.map(todo => (
-                        <TodoItem key={todo.id} {...{ todo }}  {...{setToggleButtonSelected}} {...{editButtonSelected}} {...{setEditButtonSelected}}  {...{setSelectedTodo}}/>
+                        <TodoItem key={todo.id} todo={todo}  setToggleButtonSelected={setToggleButtonSelected} editButtonSelected={editButtonSelected} setEditButtonSelected={setEditButtonSelected} setSelectedTodo={setSelectedTodo}/>
                     ))}
                     <ToggleButton onClick={handleToggleButton}>+</ToggleButton>
                 </Wrapper>

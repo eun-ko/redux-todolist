@@ -113,7 +113,7 @@ const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSel
                 <AddButton onClick={text==='추가하기'?handleAddButton:handleEditButton}>{text}</AddButton>
             </Row>
             <Row>
-                <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{selectedTodo}}/>
+                <TodoColorRadioButton colorFilter={colorFilter} setColorFilter={setColorFilter} selectedTodo={selectedTodo}/>
                 <BroomIcon src={broomIcon} />
             </Row>
             <Input
