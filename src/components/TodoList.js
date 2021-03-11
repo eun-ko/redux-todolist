@@ -32,7 +32,7 @@ export default function TodoList() {
     const [editButtonSelected,setEditButtonSelected]=useState(false);
     const [selectedTodo,setSelectedTodo]=useState();
 
-    const todos = useSelector(state => state);
+    const todos = useSelector(state => state.TodosReducer);
 
     const handleToggleButton = () => {
         setToggleButtonSelected(!toggleButtonSelected);
