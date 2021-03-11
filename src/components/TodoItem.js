@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
+import {  useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import editIcon from '../assets/Icons/editIcon.png';
 import deleteIcon from '../assets/Icons/deleteIcon.png';
 import checkIcon from '../assets/Icons/checkIcon.png';
+import { toggleTodo,deleteTodo } from "../modules/TodosReducer";
+import TODOCOLORS from '../constants/TodoColorList';
 
 const DeleteIcon = styled.img`
 width:14px;
@@ -58,13 +61,21 @@ display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo, onToggleTodo,setToggleButtonSelected, onDeleteTodo,editButtonSelected,setEditButtonSelected,setSelectedTodoID,setSelectedTodoColor,setSelectedTodo }) => {
+const TodoItem = ({ todo,setToggleButtonSelected,editButtonSelected,setEditButtonSelected,setSelectedTodo }) => {
+
+    const dispatch = useDispatch();
+
+    const onToggleTodo = (id) => dispatch(toggleTodo(id));
+    
+    const onDeleteTodo = (id,todoColor) =>  {
+        const selectedTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===todoColor);
+        selectedTodoColor.count-=1;
+        dispatch(deleteTodo(id,todoColor))
+    };
 
     const handleEditIcon=(e)=>{
         e.preventDefault();
         setSelectedTodo(todo);
-        setSelectedTodoID(todo.id);
-        setSelectedTodoColor(todo.todoColor);
         setToggleButtonSelected(true);
         setEditButtonSelected(!editButtonSelected);
     }

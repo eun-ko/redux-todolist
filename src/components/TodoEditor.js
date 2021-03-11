@@ -1,10 +1,15 @@
-import React from 'react'
+import React,{useState} from 'react';
+import {  useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Header from './Header';
 import TodoColorRadioButton from './TodoColorRadioButton';
+
 import broomIcon from '../assets/Icons/broomIcon.png';
+
+import { addTodo, editTodo } from "../modules/TodosReducer";
+import TODOCOLORS from '../constants/TodoColorList';
 
 const BroomIcon = styled.img`
 width:24px;
@@ -60,13 +65,52 @@ padding: 4px 8px;
 margin-right:16px;
 `;
 
-const TodoEditor=({text,title,handleButton,colorFilter,setColorFilter,todoContent,handleTodoInput,handleToggleButton,selectedTodo})=>{
+const TodoEditor=({text,title,handleToggleButton,selectedTodo,setToggleButtonSelected,setEditButtonSelected})=>{
+
+    const [todoContent, setTodoContent] = useState('');
+    const [colorFilter, setColorFilter] = useState('');
+
+    const dispatch = useDispatch();
+
+    const onAddTodo = (todoContent, todoFilter) => dispatch(addTodo(todoContent, todoFilter));
+    const onEditTodo = (id,todoContent,todoFilter) => dispatch(editTodo(id,todoContent,todoFilter));
+
+    const handleAddButton = (e) => {
+        e.preventDefault();
+        onAddTodo(todoContent, colorFilter);
+        if(colorFilter){
+            const selectedColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===colorFilter)
+            selectedColor.count+=1;
+        }
+        setTodoContent('');
+        setColorFilter('');
+        setToggleButtonSelected(false);
+    }
+
+    const handleEditButton=(e)=>{
+        e.preventDefault();
+        onEditTodo(selectedTodo.id,todoContent,colorFilter);
+        setTodoContent('');
+        setColorFilter('');        
+
+        setEditButtonSelected(false);
+        setToggleButtonSelected(false);
+
+        const originalTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===selectedTodo.todoColor);
+        originalTodoColor.count-=1;
+        
+        const editedTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===colorFilter);
+        editedTodoColor.count+=1; 
+    }
+
+    const handleTodoInput = e => setTodoContent(e.target.value);
+
     return(
         <Wrapper>
             <Header text={text}></Header>
             <Row>
                 <Title>{title}</Title>
-                <AddButton onClick={handleButton}>{text}</AddButton>
+                <AddButton onClick={text==='추가하기'?handleAddButton:handleEditButton}>{text}</AddButton>
             </Row>
             <Row>
                 <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{selectedTodo}}/>
@@ -85,11 +129,8 @@ export default TodoEditor;
 TodoEditor.propTypes = {
     text: PropTypes.string,
     title:PropTypes.string,
-    handleButton: PropTypes.func,
-    colorFilter: PropTypes.string,
-    setColorFilter: PropTypes.func,
-    todoContent: PropTypes.string,
-    handleTodoInput: PropTypes.func,
     handleToggleButton: PropTypes.func,
-    selectedTodo:PropTypes.object
+    selectedTodo:PropTypes.object,
+    setToggleButtonSelected: PropTypes.func,
+    setEditButtonSelected: PropTypes.func
 }
