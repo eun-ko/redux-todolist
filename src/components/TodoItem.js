@@ -58,14 +58,23 @@ display:flex;
 align-items:center;
 `;
 
-const TodoItem = ({ todo, onToggleTodo, onDeleteTodo, onEditTodo }) => {
+const TodoItem = ({ todo, onToggleTodo,setToggleButtonSelected, onDeleteTodo,editButtonSelected,setEditButtonSelected,setSelectedTodoID,setSelectedTodoColor }) => {
 
+    const handleEditIcon=(e)=>{
+        e.preventDefault();
+
+        setSelectedTodoID(todo.id);
+        setSelectedTodoColor(todo.todoColor);
+        setToggleButtonSelected(true);
+        setEditButtonSelected(!editButtonSelected);
+    }
+   
     return (
         <TodoWrapper done={todo.done}>
             <TodoFilter todoColor={todo.todoColor}></TodoFilter>
             <TodoRow>
                 <TodoContent onClick={() => onToggleTodo(todo.id)}>{todo.todoContent}</TodoContent>
-                <EditIcon src={editIcon} onClick={() => onEditTodo(todo.id)} />
+                <EditIcon src={editIcon} onClick={handleEditIcon} />
             </TodoRow>
             {todo.done &&
                 <IconRow>
@@ -82,9 +91,10 @@ TodoItem.propTypes = {
     todo: PropTypes.object,
     onToggleTodo: PropTypes.func,
     onDeleteTodo: PropTypes.func,
-    onEditTodo: PropTypes.func,
-    editSelected: PropTypes.bool,
-    setEditSelected: PropTypes.func,
-    todoContent: PropTypes.string,
-    colorFilter: PropTypes.string
+    setToggleButtonSelected: PropTypes.func,
+    editButtonSelected: PropTypes.bool,
+    setEditButtonSelected: PropTypes.func,
+    setSelectedTodoID: PropTypes.func,
+    setSelectedTodoColor: PropTypes.func
+    
 }

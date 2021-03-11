@@ -25,9 +25,15 @@ export const deleteTodo = (id) => ({
     id
 });
 
-export const editTodo = (id) => ({
+export const editTodo = (id,todoContent,todoColor) => ({
     type: EDIT_TODO,
-    id
+    id,
+    todo:{
+        id,
+        todoContent, 
+        todoColor,
+        done:false
+    }
 })
 
 const initialState = [
@@ -44,11 +50,12 @@ const initialState = [
 ]
 
 const TodosReducer = (state = initialState, action) => {
-    console.log(action.type);
+    //console.log('action.type',action.type);
+    //console.log('state:',state);
     switch (action.type) {
         case ADD_TODO:
             {
-                console.log(action.todo);
+                //console.log('add-todo의 action.todo',action.todo);
                 return state.concat(action.todo);
             }
 
@@ -62,16 +69,17 @@ const TodosReducer = (state = initialState, action) => {
         case DELETE_TODO:
             return state.filter(todo => todo.id !== action.id);
         case EDIT_TODO:
-            return {
-                ...state
-            }
-        /*{
-            console.log(action.todo);
-            const a = state.findIndex(todo => todo.id === action.id);
-            state[a] = action.todo;
-            return state;
-        }*/
-
+            //console.log(action.todo);
+            return state.map(
+                todo=>
+                    todo.id===action.id 
+                        ? {...todo,
+                            id:action.todo.id,
+                            todoContent:action.todo.todoContent,
+                            todoColor:action.todo.todoColor,
+                            done:false}
+                        : todo
+            )
         default:
             return state;
     }

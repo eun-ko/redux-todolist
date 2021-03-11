@@ -72,18 +72,24 @@ export default function TodoList() {
     const [todoContent, setTodoContent] = useState('');
     const [colorFilter, setColorFilter] = useState('');
     const [toggleButtonSelected, setToggleButtonSelected] = useState(false);
-
+    const [editButtonSelected,setEditButtonSelected]=useState(false);
+    const [selectedTodoID,setSelectedTodoID]=useState(0);
+    const [selectedTodoColor,setSelectedTodoColor]=useState('');
 
     const todos = useSelector(state => state);
     const dispatch = useDispatch();
 
     const onAddTodo = (todoContent, todoFilter) => dispatch(addTodo(todoContent, todoFilter));
+    
     const onToggleTodo = useCallback((id) => dispatch(toggleTodo(id)), [dispatch]);
+    
     const onDeleteTodo = (id,todoColor) =>  {
-        const selectedTodoColor=TODOCOLORS.find((color)=>color.hex===todoColor);
+        const selectedTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===todoColor);
         selectedTodoColor.count-=1;
         return dispatch(deleteTodo(id,todoColor))};
-    const onEditTodo = (id) => dispatch(editTodo(id));
+    
+     const onEditTodo = (id,todoContent,todoFilter) => {
+        return dispatch(editTodo(id,todoContent,todoFilter))};
 
     const handleTodoInput = e => setTodoContent(e.target.value);
 
@@ -95,7 +101,7 @@ export default function TodoList() {
         e.preventDefault();
         onAddTodo(todoContent, colorFilter);
         if(colorFilter){
-            const selectedColor=TODOCOLORS.find((color)=>color.hex===colorFilter)
+            const selectedColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===colorFilter)
             selectedColor.count+=1;
         }
         setTodoContent('');
@@ -103,14 +109,33 @@ export default function TodoList() {
         setToggleButtonSelected(false);
     }
 
+    const handleEditButton=(e)=>{
+        e.preventDefault();
+        onEditTodo(selectedTodoID,todoContent,colorFilter);
+        setTodoContent('');
+        setColorFilter('');        
+
+        setEditButtonSelected(false);
+        setToggleButtonSelected(false);
+
+        const originalTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===selectedTodoColor);
+        originalTodoColor.count-=1;
+        
+        const editedTodoColor=TODOCOLORS.find((todoColorConstant)=>todoColorConstant.hex===colorFilter);
+        editedTodoColor.count+=1; 
+    }
+        
     return (
         <>
-            {toggleButtonSelected ?
-                <Wrapper>
-                    <Header text="추가하기"></Header>
+            {toggleButtonSelected 
+                ?
+                <>
+                    {editButtonSelected ?
+                    <Wrapper>
+                    <Header text="수정하기"></Header>
                     <Row>
-                        <Title>Add Todo</Title>
-                        <AddButton onClick={handleAddButton}>추가하기</AddButton>
+                        <Title>Edit Todo</Title>
+                        <AddButton onClick={handleEditButton}>수정하기</AddButton>
                     </Row>
                     <Row>
                         <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
@@ -121,7 +146,26 @@ export default function TodoList() {
                         onChange={handleTodoInput}
                     />
                     <ToggleButton onClick={handleToggleButton}>-</ToggleButton>
-                </Wrapper>
+                    </Wrapper>
+                    : 
+                    <Wrapper>
+                        <Header text="추가하기"></Header>
+                        <Row>
+                            <Title>Add Todo</Title>
+                            <AddButton onClick={handleAddButton}>추가하기</AddButton>
+                        </Row>
+                        <Row>
+                            <TodoColorRadioButton {...{ colorFilter }} {...{ setColorFilter }} {...{ todoContent }} {...{ colorFilter }} />
+                            <BroomIcon src={broomIcon} />
+                        </Row>
+                        <Input
+                            value={todoContent}
+                            onChange={handleTodoInput}
+                        />
+                        <ToggleButton onClick={handleToggleButton}>-</ToggleButton>
+                    </Wrapper>
+                    }   
+                </> 
                 :
                 <Wrapper>
 
@@ -129,13 +173,16 @@ export default function TodoList() {
                     <RemainTodoList {...{ todos }} />
                     <>
                         {todos.map(todo => (
-                            <TodoItem key={todo.id} {...{ todo }} {...{ onToggleTodo }} {...{ onDeleteTodo }} {...{ onEditTodo }} />
+                            <TodoItem key={todo.id} {...{ todo }} {...{ onToggleTodo }} {...{onDeleteTodo}} {...{setToggleButtonSelected}} {...{editButtonSelected}} {...{setEditButtonSelected}} {...{selectedTodoID}} {...{setSelectedTodoID}}  {...{setSelectedTodoColor}}/>
                         ))}
                     </>
                     <ToggleButton onClick={handleToggleButton}>+</ToggleButton>
                 </Wrapper>
             }
-        </>
+            </>
+            
+            
+        
     );
 }
 
