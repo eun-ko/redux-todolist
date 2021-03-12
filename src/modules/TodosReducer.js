@@ -27,7 +27,6 @@ export const deleteTodo = (id) => ({
 
 export const editTodo = (id, todoContent, todoColor) => ({
   type: EDIT_TODO,
-  id,
   todo: {
     id,
     todoContent,
@@ -63,7 +62,7 @@ const TodosReducer = (state = initialState, action) => {
       return state.filter((todo) => todo.id !== action.id);
     case EDIT_TODO:
       return state.map((todo) =>
-        todo.id === action.id
+        todo.id === action.todo.id
           ? {
               ...todo,
               id: action.todo.id,
@@ -72,7 +71,7 @@ const TodosReducer = (state = initialState, action) => {
               done: false,
             }
           : todo
-      ); //console.log(action.todo);
+      );
 
     default:
       return state;
