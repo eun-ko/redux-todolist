@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import { addTodo, editTodo } from '../modules/TodosReducer';
 import { togglePage } from '../modules/PageToggleReducer';
+import {Todo} from "../modules/TodosReducer";
 
 import Header from './Header';
 import TodoColorRadioButton from './TodoColorRadioButton';
@@ -12,6 +12,13 @@ import TodoColorRadioButton from './TodoColorRadioButton';
 import broomIcon from '../assets/Icons/broomIcon.png';
 
 import TODOCOLORS from '../constants/TodoColorList';
+
+interface IProps{
+  text:string;
+  title:string;
+  selectedTodo:Todo;
+  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const BroomIcon = styled.img`
   width: 24px;
@@ -67,34 +74,34 @@ const AddButton = styled.button`
   margin-right: 16px;
 `;
 
-const TodoEditor = ({ text, title, selectedTodo, setEditButtonSelected }) => {
+const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonSelected }) => {
   const [todoContent, setTodoContent] = useState('');
   const [colorFilter, setColorFilter] = useState('');
 
   const dispatch = useDispatch();
 
-  const onAddTodo = (todoContent, todoFilter) =>
+  const onAddTodo = (todoContent:string, todoFilter:string) =>
     dispatch(addTodo(todoContent, todoFilter));
-  const onEditTodo = (id, todoContent, todoFilter) =>
+  const onEditTodo = (id:number, todoContent:string, todoFilter:string) =>
     dispatch(editTodo(id, todoContent, todoFilter));
 
   const handlePageToggle = () => dispatch(togglePage());
 
-  const handleAddButton = (e) => {
+  const handleAddButton = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     onAddTodo(todoContent, colorFilter);
     if (colorFilter) {
       const selectedColor = TODOCOLORS.find(
         (todoColorConstant) => todoColorConstant.hex === colorFilter
       );
-      selectedColor.count += 1;
+      if(selectedColor) selectedColor.count += 1;
     }
     setTodoContent('');
     setColorFilter('');
     handlePageToggle();
   };
 
-  const handleEditButton = (e) => {
+  const handleEditButton = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     onEditTodo(selectedTodo.id, todoContent, colorFilter);
     setTodoContent('');
@@ -106,15 +113,15 @@ const TodoEditor = ({ text, title, selectedTodo, setEditButtonSelected }) => {
     const originalTodoColor = TODOCOLORS.find(
       (todoColorConstant) => todoColorConstant.hex === selectedTodo.todoColor
     );
-    originalTodoColor.count -= 1;
+    if(originalTodoColor) originalTodoColor.count -= 1;
 
     const editedTodoColor = TODOCOLORS.find(
       (todoColorConstant) => todoColorConstant.hex === colorFilter
     );
-    editedTodoColor.count += 1;
+    if(editedTodoColor) editedTodoColor.count += 1;
   };
 
-  const handleTodoInput = (e) => setTodoContent(e.target.value);
+  const handleTodoInput = (e:React.ChangeEvent<HTMLInputElement>) => setTodoContent(e.target.value);
 
   return (
     <Wrapper>
@@ -145,9 +152,3 @@ const TodoEditor = ({ text, title, selectedTodo, setEditButtonSelected }) => {
 };
 export default TodoEditor;
 
-TodoEditor.propTypes = {
-  text: PropTypes.string,
-  title: PropTypes.string,
-  selectedTodo: PropTypes.object,
-  setEditButtonSelected: PropTypes.func,
-};

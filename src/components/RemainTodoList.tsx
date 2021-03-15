@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import TODOCOLORS from '../constants/TodoColorList';
+import {Todo} from "../modules/TodosReducer";
 
 const RemainTodoWrapper = styled.div`
   width: 100%;
@@ -15,7 +15,7 @@ const RemainTitle = styled.p`
   margin: 12px 0 10px 12px;
 `;
 
-const Color = styled.div`
+const Color = styled.div<{backgroundColor:string}>`
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -30,7 +30,11 @@ const ColorWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const RemainTodoList = ({ todos }) => {
+interface IProps{
+  todos:Todo[]
+}
+
+const RemainTodoList:React.FC<IProps> = ({todos}) => {
   return (
     <RemainTodoWrapper>
       <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
@@ -40,8 +44,8 @@ const RemainTodoList = ({ todos }) => {
             <Color
               key={todoColorConstant.name}
               backgroundColor={todoColorConstant.hex}
-            />{' '}
-            {todoColorConstant.count}개
+            />
+            <span>{todoColorConstant.count}개</span>
           </>
         ))}
       </ColorWrapper>
@@ -50,6 +54,3 @@ const RemainTodoList = ({ todos }) => {
 };
 export default RemainTodoList;
 
-RemainTodoList.propTypes = {
-  todos: PropTypes.array,
-};

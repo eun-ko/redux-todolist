@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
   height: 52px;
@@ -12,7 +11,7 @@ const Title = styled.p`
   font-size: 21px;
 `;
 
-const Header = ({ text }) => {
+const Header = ({ text }:{text:string})=> {
   return (
     <Wrapper>
       <Title>{text}</Title>
@@ -20,7 +19,3 @@ const Header = ({ text }) => {
   );
 };
 export default Header;
-
-Header.propTypes = {
-  text: PropTypes.string,
-};

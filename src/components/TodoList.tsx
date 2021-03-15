@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Header from './Header';
@@ -8,6 +8,7 @@ import RemainTodoList from './RemainTodoList';
 import TodoEditor from './TodoEditor';
 
 import { togglePage } from '../modules/PageToggleReducer';
+import {Todo} from "../modules/TodosReducer";
 
 const ToggleButton = styled.button`
   font-size: 32px;
@@ -30,11 +31,11 @@ const Wrapper = styled.div`
 
 export default function TodoList() {
   const [editButtonSelected, setEditButtonSelected] = useState(false);
-  const [selectedTodo, setSelectedTodo] = useState();
+  const [selectedTodo, setSelectedTodo] = useState({id:0,todoContent:'',todoColor:'',done:false});
 
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.TodosReducer);
-  const toggleButtonSelected = useSelector((state) => state.PageToggleReducer);
+  const todos = useSelector((state:RootStateOrAny) => state.TodosReducer);
+  const toggleButtonSelected = useSelector((state:RootStateOrAny) => state.PageToggleReducer);
 
   const handlePageToggle = () => dispatch(togglePage());
 
@@ -49,7 +50,7 @@ export default function TodoList() {
     <Wrapper>
       <Header text="투-두 리스트" />
       <RemainTodoList todos={todos} />
-      {todos.map((todo) => (
+      {todos.map((todo:Todo) => (
         <TodoItem
           key={todo.id}
           todo={todo}

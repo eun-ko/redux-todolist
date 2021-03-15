@@ -1,8 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import TODOCOLORS from '../constants/TodoColorList';
+import {Todo} from "../modules/TodosReducer";
+
+interface IProps {
+  colorFilter:string;
+  setColorFilter:React.Dispatch<React.SetStateAction<string>>;
+  selectedTodo:Todo
+}
 
 const ColorFilterRow = styled.div`
   display: flex;
@@ -26,15 +32,20 @@ const ColorFilter = styled.input`
   }
 `;
 
-const TodoColorRadioButton = ({
+const TodoColorRadioButton:React.FC<IProps> = ({
   colorFilter,
   setColorFilter,
   selectedTodo,
 }) => {
-  const handleTodoColor = (e) => {
+  const handleTodoColor = (e:React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const selectedColor = TODOCOLORS.find((color) => color.name === value);
+    const selectedColor= TODOCOLORS.find((color) => color.name === value);
+    if(!selectedColor) return
     setColorFilter(selectedColor.hex);
+    /*
+    or
+    if(selectedColor) setColorFilter(selectedColor.hex);
+    */
   };
 
   return (
@@ -53,7 +64,7 @@ const TodoColorRadioButton = ({
             }
             onChange={handleTodoColor}
           />
-          <Label htmlFor={color.name} color={color.hex}></Label>
+          <Label htmlFor={color.name} color={color.hex} ></Label>
         </div>
       ))}
     </ColorFilterRow>
@@ -62,8 +73,3 @@ const TodoColorRadioButton = ({
 
 export default TodoColorRadioButton;
 
-TodoColorRadioButton.propTypes = {
-  colorFilter: PropTypes.string,
-  setColorFilter: PropTypes.func,
-  selectedTodo: PropTypes.object,
-};
