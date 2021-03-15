@@ -5,7 +5,14 @@ const EDIT_TODO = 'todos/EDIT_TODO';
 
 let todoID = 1;
 
-export const addTodo = (todoContent, todoColor) => ({
+interface Todo{
+  id:number;
+  todoContent:string;
+  todoColor:string;
+  done:boolean;
+}
+
+export const addTodo = (todoContent:string, todoColor:string) => ({
   type: ADD_TODO,
   todo: {
     id: todoID++,
@@ -15,17 +22,17 @@ export const addTodo = (todoContent, todoColor) => ({
   },
 });
 
-export const toggleTodo = (id) => ({
+export const toggleTodo = (id:number) => ({
   type: TOGGLE_TODO,
   id,
 });
 
-export const deleteTodo = (id) => ({
+export const deleteTodo = (id:number) => ({
   type: DELETE_TODO,
   id,
 });
 
-export const editTodo = (id, todoContent, todoColor) => ({
+export const editTodo = (id:number, todoContent:string, todoColor:string) => ({
   type: EDIT_TODO,
   todo: {
     id,
@@ -35,7 +42,7 @@ export const editTodo = (id, todoContent, todoColor) => ({
   },
 });
 
-const initialState = [
+const initialState : Todo[]=[
   //다음과 같이 구성된 객체
   /*
     {
@@ -48,7 +55,7 @@ const initialState = [
     */
 ];
 
-const TodosReducer = (state = initialState, action) => {
+const TodosReducer = (state = initialState, action:any) => {
   switch (action.type) {
     case ADD_TODO: {
       return state.concat(action.todo);

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react';
 import styled from 'styled-components';
 
 import GlobalStyles from './styles/GlobalStyles';
-import TodoList from '../src/components/TodoList';
+import TodoList from './components/TodoList';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.1);
 `;
 
-function App() {
+function App(){
   return (
     <Wrapper>
       <TodoList />

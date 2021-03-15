@@ -6,7 +6,7 @@ export const togglePage = () => ({
 
 const initialState = false;
 
-const PageToggleReducer = (state = initialState, action) => {
+const PageToggleReducer = (state = initialState, action:any) => {
   switch (action.type) {
     case TOGGLE_PAGE:
       return !state;
