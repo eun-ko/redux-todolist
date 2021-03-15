@@ -4,15 +4,32 @@ const DELETE_TODO = 'todos/DELETE_TODO';
 const EDIT_TODO = 'todos/EDIT_TODO';
 
 let todoID = 1;
-
-interface Todo{
+export interface Todo{
   id:number;
   todoContent:string;
   todoColor:string;
   done:boolean;
 }
+interface AddTodoAction{
+  type:typeof ADD_TODO
+  todo:Todo
+}
+interface ToggleTodoAction{
+  type:typeof TOGGLE_TODO
+  id:number
+}
+interface DeleteTodoAction{
+  type:typeof DELETE_TODO
+  id:number
+}
+interface EditTodoAction{
+  type:typeof EDIT_TODO
+  todo:Todo
+}
 
-export const addTodo = (todoContent:string, todoColor:string) => ({
+export type TodoActionTypes=AddTodoAction|ToggleTodoAction|DeleteTodoAction|EditTodoAction;
+
+export const addTodo = (todoContent:string, todoColor:string) :AddTodoAction => ({
   type: ADD_TODO,
   todo: {
     id: todoID++,
@@ -22,17 +39,17 @@ export const addTodo = (todoContent:string, todoColor:string) => ({
   },
 });
 
-export const toggleTodo = (id:number) => ({
+export const toggleTodo = (id:number):ToggleTodoAction => ({
   type: TOGGLE_TODO,
   id,
 });
 
-export const deleteTodo = (id:number) => ({
+export const deleteTodo = (id:number):DeleteTodoAction => ({
   type: DELETE_TODO,
   id,
 });
 
-export const editTodo = (id:number, todoContent:string, todoColor:string) => ({
+export const editTodo = (id:number, todoContent:string, todoColor:string) :EditTodoAction=> ({
   type: EDIT_TODO,
   todo: {
     id,
@@ -42,25 +59,13 @@ export const editTodo = (id:number, todoContent:string, todoColor:string) => ({
   },
 });
 
-const initialState : Todo[]=[
-  //다음과 같이 구성된 객체
-  /*
-    {
-        id:1,
-        todoContent:'예시',
-        todoColor:'색',
-        done:false
-    }
-    
-    */
-];
+const initialState : Todo[]=[];
 
-const TodosReducer = (state = initialState, action:any) => {
+const TodosReducer = (state = initialState, action:TodoActionTypes) :Todo[]=> {
   switch (action.type) {
     case ADD_TODO: {
       return state.concat(action.todo);
     }
-
     case TOGGLE_TODO:
       return state.map((todo) =>
         todo.id === action.id ? { ...todo, done: !todo.done } : todo
