@@ -1,4 +1,4 @@
-interface TodoColorConstant{
+export interface TodoColorConstant{
   name:string;
   hex:string;
   count:number;
