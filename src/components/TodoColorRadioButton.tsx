@@ -27,24 +27,27 @@ const ColorFilter = styled.input`
 `;
 
 interface IProps {
-  colorFilter:string;
-  setColorFilter:React.Dispatch<React.SetStateAction<string>>;
+  text:string;
+  todoColor:string;
+  setTodoColor:React.Dispatch<React.SetStateAction<string>>;
   selectedTodo:Todo
 }
 
 const TodoColorRadioButton:React.FC<IProps> = ({
-  colorFilter,
-  setColorFilter,
+  text,
+  todoColor,
+  setTodoColor,
   selectedTodo,
 }) => {
+  console.log('radiobutton selectedTodo',selectedTodo);
   const handleTodoColor = (e:React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const selectedColor= TODOCOLORS.find((color) => color.name === value);
     if(!selectedColor) return
-    setColorFilter(selectedColor.hex);
+    setTodoColor(selectedColor.hex);
     /*
     or
-    if(selectedColor) setColorFilter(selectedColor.hex);
+    if(selectedColor) setTodoColor(selectedColor.hex);
     */
   };
 
@@ -60,7 +63,7 @@ const TodoColorRadioButton:React.FC<IProps> = ({
             color={color.hex}
             checked={
               (selectedTodo && color.hex === selectedTodo.todoColor) ||
-              color.hex === colorFilter
+              color.hex === todoColor
             }
             onChange={handleTodoColor}
           />
