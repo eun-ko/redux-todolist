@@ -13,13 +13,6 @@ import broomIcon from '../assets/Icons/broomIcon.png';
 
 import TODOCOLORS from '../constants/TodoColorList';
 
-interface IProps{
-  text:string;
-  title:string;
-  selectedTodo:Todo;
-  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 const BroomIcon = styled.img`
   width: 24px;
   height: 24px;
@@ -48,7 +41,7 @@ const Title = styled.p`
   align-items: center;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   width: 100%;
   height: 100%;
   display: flex;
@@ -74,6 +67,13 @@ const AddButton = styled.button`
   margin-right: 16px;
 `;
 
+interface IProps{
+  text:string;
+  title:string;
+  selectedTodo:Todo;
+  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonSelected }) => {
   const [todoContent, setTodoContent] = useState('');
   const [colorFilter, setColorFilter] = useState('');
@@ -87,8 +87,7 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
 
   const handlePageToggle = () => dispatch(togglePage());
 
-  const handleAddButton = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const handleAddButton = () => {
     onAddTodo(todoContent, colorFilter);
     if (colorFilter) {
       const selectedColor = TODOCOLORS.find(
@@ -101,8 +100,7 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
     handlePageToggle();
   };
 
-  const handleEditButton = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const handleEditButton = () => {
     onEditTodo(selectedTodo.id, todoContent, colorFilter);
     setTodoContent('');
     setColorFilter('');
@@ -130,6 +128,7 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
         <Title>{title}</Title>
         <AddButton
           onClick={text === '추가하기' ? handleAddButton : handleEditButton}
+          type="submit"
         >
           {text}
         </AddButton>
@@ -145,6 +144,7 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
       <Input
         defaultValue={selectedTodo ? selectedTodo.todoContent : todoContent}
         onChange={handleTodoInput}
+        autoFocus
       />
       <ToggleButton onClick={handlePageToggle}>-</ToggleButton>
     </Wrapper>

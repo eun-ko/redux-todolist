@@ -12,13 +12,6 @@ import checkIcon from '../assets/Icons/checkIcon.png';
 
 import TODOCOLORS from '../constants/TodoColorList';
 
-interface IProps{
-  todo:Todo;
-  editButtonSelected:boolean;
-  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedTodo:React.Dispatch<React.SetStateAction<Todo>>;
-}
-
 const DeleteIcon = styled.img`
   width: 14px;
   margin-right: 13px;
@@ -71,6 +64,13 @@ const TodoRow = styled.div`
   align-items: center;
 `;
 
+interface IProps{
+  todo:Todo;
+  editButtonSelected:boolean;
+  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedTodo:React.Dispatch<React.SetStateAction<Todo>>;
+}
+
 const TodoItem :React.FC<IProps> =({
   todo,
   editButtonSelected,
@@ -91,8 +91,7 @@ const TodoItem :React.FC<IProps> =({
 
   const handlePageToggle = () => dispatch(togglePage());
 
-  const handleEditIcon = (e:React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    e.preventDefault();
+  const handleEditIcon = () => {
     setSelectedTodo(todo);
     handlePageToggle();
     setEditButtonSelected(!editButtonSelected);

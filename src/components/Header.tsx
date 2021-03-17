@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps{
-  text:string
-}
-
 const Wrapper = styled.div`
   height: 52px;
   padding: 13px 255px 13px 12px;
@@ -14,6 +10,10 @@ const Wrapper = styled.div`
 const Title = styled.p`
   font-size: 21px;
 `;
+
+interface IProps{
+  text:string
+}
 
 const Header:React.FC<IProps> = ({ text })=> {
   return (

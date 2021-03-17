@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import TODOCOLORS from '../constants/TodoColorList';
-import {Todo} from "../modules/TodosReducer";
+
+import {RootState} from "../modules";
 
 const RemainTodoWrapper = styled.div`
   width: 100%;
@@ -30,11 +32,8 @@ const ColorWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-interface IProps{
-  todos:Todo[]
-}
-
-const RemainTodoList:React.FC<IProps> = ({todos}) => {
+const RemainTodoList:React.FC = () => {
+  const todos = useSelector((state:RootState) => state.todo);
   return (
     <RemainTodoWrapper>
       <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>

@@ -4,12 +4,6 @@ import styled from 'styled-components';
 import TODOCOLORS from '../constants/TodoColorList';
 import {Todo} from "../modules/TodosReducer";
 
-interface IProps {
-  colorFilter:string;
-  setColorFilter:React.Dispatch<React.SetStateAction<string>>;
-  selectedTodo:Todo
-}
-
 const ColorFilterRow = styled.div`
   display: flex;
   width: 224px;
@@ -31,6 +25,12 @@ const ColorFilter = styled.input`
     border: ${(props) => (props.checked ? '2px solid black' : 'none')};
   }
 `;
+
+interface IProps {
+  colorFilter:string;
+  setColorFilter:React.Dispatch<React.SetStateAction<string>>;
+  selectedTodo:Todo
+}
 
 const TodoColorRadioButton:React.FC<IProps> = ({
   colorFilter,

@@ -1,10 +1,4 @@
-export interface TodoColorConstant{
-  name:string;
-  hex:string;
-  count:number;
-}
-
-const TODOCOLORS:TodoColorConstant[]= [
+const TODOCOLORS = [
   { name: 'RED', hex: '#ffafb0', count: 0 },
   { name: 'ORANGE', hex: '#ffc282', count: 0 },
   { name: 'YELLOW', hex: '#fcffb0', count: 0 },
