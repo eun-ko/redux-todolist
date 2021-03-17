@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import TODOCOLORS from '../constants/TodoColorList';
-import {Todo} from "../modules/TodosReducer";
+import { Todo } from '../modules/TodosReducer';
 
 const ColorFilterRow = styled.div`
   display: flex;
@@ -27,24 +27,21 @@ const ColorFilter = styled.input`
 `;
 
 interface IProps {
-  text:string;
-  todoColor:string;
-  setTodoColor:React.Dispatch<React.SetStateAction<string>>;
-  selectedTodo:Todo
+  todoColor: string;
+  setTodoColor: React.Dispatch<React.SetStateAction<string>>;
+  selectedTodo: Todo;
 }
 
-const TodoColorRadioButton:React.FC<IProps> = ({
-  text,
+const TodoColorRadioButton: React.FC<IProps> = ({
   todoColor,
   setTodoColor,
-  selectedTodo,
 }) => {
-  console.log('radiobutton selectedTodo',selectedTodo);
-  const handleTodoColor = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleTodoColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const selectedColor= TODOCOLORS.find((color) => color.name === value);
-    if(!selectedColor) return
+    const selectedColor = TODOCOLORS.find((color) => color.name === value);
+    if (!selectedColor) return;
     setTodoColor(selectedColor.hex);
+    //console.log('todoColor', todoColor); //여기서 바로 적용안됨
     /*
     or
     if(selectedColor) setTodoColor(selectedColor.hex);
@@ -61,13 +58,10 @@ const TodoColorRadioButton:React.FC<IProps> = ({
             name="color-selector"
             value={color.name}
             color={color.hex}
-            checked={
-              (selectedTodo && color.hex === selectedTodo.todoColor) ||
-              color.hex === todoColor
-            }
+            checked={color.hex === todoColor}
             onChange={handleTodoColor}
           />
-          <Label htmlFor={color.name} color={color.hex} ></Label>
+          <Label htmlFor={color.name} color={color.hex}></Label>
         </div>
       ))}
     </ColorFilterRow>
@@ -75,4 +69,3 @@ const TodoColorRadioButton:React.FC<IProps> = ({
 };
 
 export default TodoColorRadioButton;
-

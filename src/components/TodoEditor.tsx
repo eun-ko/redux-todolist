@@ -1,10 +1,10 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { addTodo, editTodo } from '../modules/TodosReducer';
 import { togglePage } from '../modules/PageToggleReducer';
-import {Todo} from "../modules/TodosReducer";
+import { Todo } from '../modules/TodosReducer';
 
 import Header from './Header';
 import TodoColorRadioButton from './TodoColorRadioButton';
@@ -67,43 +67,61 @@ const AddButton = styled.button`
   margin-right: 16px;
 `;
 
-interface IProps{
-  text:string;
-  title:string;
-  selectedTodo:Todo;
-  setEditButtonSelected:React.Dispatch<React.SetStateAction<boolean>>;
+interface IProps {
+  text: string;
+  title: string;
+  selectedTodo: Todo;
+  setEditButtonSelected: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonSelected }) => {
-  const [todoContent, setTodoContent] = useState('');
-  const [todoColor, setTodoColor] = useState('');
-
+const TodoEditor: React.FC<IProps> = ({
+  text,
+  title,
+  selectedTodo,
+  setEditButtonSelected,
+}) => {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(todoContent==='') setTodoContent(selectedTodo.todoContent);
-    if(todoColor==='') setTodoColor(selectedTodo.todoColor);
-  },[selectedTodo,todoContent,todoColor]);
+  const [todoContent, setTodoContent] = useState(
+    text === '추가하기' ? '' : selectedTodo.todoContent
+  );
+  const [todoColor, setTodoColor] = useState(
+    text === '추가하기' ? '' : selectedTodo.todoColor
+  );
 
-  const onAddTodo = (todoContent:string, todoColor:string) =>
+  const onAddTodo = (todoContent: string, todoColor: string) => {
     dispatch(addTodo(todoContent, todoColor));
+  };
 
-  const onEditTodo = (id:number, todoContent:string, todoColor:string) =>{
-    if(todoContent===''&& todoColor==='') {
-      // setTodoContent(selectedTodo.todoContent);
-      // setTodoColor(selectedTodo.todoColor);
-      //console.log('after setTodoContent, todoContent',todoContent); ->반영 x
-      return dispatch(editTodo(id, selectedTodo.todoContent, selectedTodo.todoColor));
+  const onEditTodo = ({
+    id,
+    todoContent,
+    todoColor,
+  }: {
+    id: number;
+    todoContent: string;
+    todoColor: string;
+  }) => {
+    if (todoContent === '' && todoColor === '') {
+      return dispatch(
+        editTodo(id, selectedTodo.todoContent, selectedTodo.todoColor)
+      );
     }
-    if(todoContent==='') return dispatch(editTodo(id,selectedTodo.todoContent,todoColor));
-    if(todoColor==='') return dispatch(editTodo(id,todoContent,selectedTodo.todoColor));
+    if (todoContent === '') {
+      return dispatch(editTodo(id, selectedTodo.todoContent, todoColor));
+    }
+    if (todoColor === '') {
+      return dispatch(editTodo(id, todoContent, selectedTodo.todoColor));
+    }
     return dispatch(editTodo(id, todoContent, todoColor));
-  }
+  };
 
   const handlePageToggle = () => dispatch(togglePage());
 
-  const handleAddButton = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if(todoColor==='' || todoContent==='') {
+  const handleAddButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (todoColor === '' || todoContent === '') {
       alert('내용과 색을 모두 지정해주세요');
       e.preventDefault();
     }
@@ -111,10 +129,9 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
       const selectedColor = TODOCOLORS.find(
         (todoColorConstant) => todoColorConstant.hex === todoColor
       );
-      if(selectedColor) selectedColor.count += 1;
+      if (selectedColor) selectedColor.count += 1;
     }
-    if(todoColor!=='' && todoContent!=='')
-    {
+    if (todoColor !== '' && todoContent !== '') {
       onAddTodo(todoContent, todoColor);
       setTodoContent('');
       setTodoColor('');
@@ -123,27 +140,28 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
   };
 
   const handleEditButton = () => {
-    
     const originalTodoColor = TODOCOLORS.find(
       (todoColorConstant) => todoColorConstant.hex === selectedTodo.todoColor
     );
-    if(originalTodoColor) originalTodoColor.count -= 1;
+    if (originalTodoColor) originalTodoColor.count -= 1;
 
     const editedTodoColor = TODOCOLORS.find(
       (todoColorConstant) => todoColorConstant.hex === todoColor
     );
-    if(editedTodoColor) editedTodoColor.count += 1;
+    if (editedTodoColor) editedTodoColor.count += 1;
 
-    onEditTodo(selectedTodo.id, todoContent, todoColor);
-    
+    onEditTodo({ id: selectedTodo.id, todoContent, todoColor });
+
     setTodoContent('');
     setTodoColor('');
-    
+
     setEditButtonSelected(false);
     handlePageToggle();
   };
 
-  const handleTodoInput = (e:React.ChangeEvent<HTMLInputElement>) => setTodoContent(e.target.value);
+  const handleTodoInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoContent(e.target.value);
+  };
 
   return (
     <Wrapper>
@@ -159,7 +177,6 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
       </Row>
       <Row>
         <TodoColorRadioButton
-          text={text}
           todoColor={todoColor}
           setTodoColor={setTodoColor}
           selectedTodo={selectedTodo}
@@ -167,7 +184,7 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
         <BroomIcon src={broomIcon} />
       </Row>
       <Input
-        defaultValue={(text==='수정하기') ? selectedTodo.todoContent : ''}
+        defaultValue={text === '수정하기' ? selectedTodo.todoContent : ''}
         onChange={handleTodoInput}
         autoFocus
       />
@@ -176,4 +193,3 @@ const TodoEditor:React.FC<IProps> = ({ text, title, selectedTodo, setEditButtonS
   );
 };
 export default TodoEditor;
-
