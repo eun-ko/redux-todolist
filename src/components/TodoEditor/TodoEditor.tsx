@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { addTodo, editTodo } from '../modules/TodosReducer';
-import { togglePage } from '../modules/PageToggleReducer';
-import { Todo } from '../modules/TodosReducer';
+import { addTodo, editTodo } from '../../modules/TodosReducer';
+import { togglePage } from '../../modules/PageToggleReducer';
+import { Todo } from '../../modules/TodosReducer';
 
-import Header from './Header';
-import TodoColorRadioButton from './TodoColorRadioButton';
+import Header from '../Header/Header';
+import TodoColorRadioButton from '../TodoColorRadioButton/TodoColorRadioButton';
 
-import broomIcon from '../assets/Icons/broomIcon.png';
+import broomIcon from '../../assets/Icons/broomIcon.png';
 
-import TODOCOLORS from '../constants/TodoColorList';
+import TODOCOLORS from '../../constants/TodoColorList';
 
 const BroomIcon = styled.img`
   width: 24px;
@@ -86,7 +86,7 @@ const TodoEditor: React.FC<IProps> = ({
     text === '추가하기' ? '' : selectedTodo.todoContent
   );
   const [todoColor, setTodoColor] = useState(
-    text === '추가하기' ? '' : selectedTodo.todoColor
+    text === '추가하기' ? '#ffafb0' : selectedTodo.todoColor
   );
 
   const onAddTodo = (todoContent: string, todoColor: string) => {
@@ -169,6 +169,8 @@ const TodoEditor: React.FC<IProps> = ({
       <Row>
         <Title>{title}</Title>
         <AddButton
+          data-testid="addBtn"
+          role="button"
           onClick={text === '추가하기' ? handleAddButton : handleEditButton}
           type="submit"
         >
@@ -179,7 +181,6 @@ const TodoEditor: React.FC<IProps> = ({
         <TodoColorRadioButton
           todoColor={todoColor}
           setTodoColor={setTodoColor}
-          selectedTodo={selectedTodo}
         />
         <BroomIcon src={broomIcon} />
       </Row>
