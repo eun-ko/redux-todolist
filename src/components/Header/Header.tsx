@@ -11,11 +11,11 @@ const Title = styled.p`
   font-size: 21px;
 `;
 
-interface IProps{
-  text:string
+interface IProps {
+  text: string;
 }
 
-const Header:React.FC<IProps> = ({ text })=> {
+const Header: React.FC<IProps> = ({ text }) => {
   return (
     <Wrapper>
       <Title>{text}</Title>
