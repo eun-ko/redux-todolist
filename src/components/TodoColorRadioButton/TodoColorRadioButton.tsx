@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import TODOCOLORS from '../constants/TodoColorList';
-import { Todo } from '../modules/TodosReducer';
+import TODOCOLORS from '../../constants/TodoColorList';
 
-const ColorFilterRow = styled.div`
+const ColorRadioRow = styled.div`
   display: flex;
   width: 224px;
   justify-content: space-between;
@@ -18,10 +17,9 @@ const Label = styled.label`
   background-color: ${(props) => props.color};
 `;
 
-const ColorFilter = styled.input`
+const ColorRadio = styled.input`
   display: none;
   &:checked + ${Label} {
-    background-color: ${(props) => props.color};
     border: ${(props) => (props.checked ? '2px solid black' : 'none')};
   }
 `;
@@ -29,7 +27,6 @@ const ColorFilter = styled.input`
 interface IProps {
   todoColor: string;
   setTodoColor: React.Dispatch<React.SetStateAction<string>>;
-  selectedTodo: Todo;
 }
 
 const TodoColorRadioButton: React.FC<IProps> = ({
@@ -41,7 +38,6 @@ const TodoColorRadioButton: React.FC<IProps> = ({
     const selectedColor = TODOCOLORS.find((color) => color.name === value);
     if (!selectedColor) return;
     setTodoColor(selectedColor.hex);
-    //console.log('todoColor', todoColor); //여기서 바로 적용안됨
     /*
     or
     if(selectedColor) setTodoColor(selectedColor.hex);
@@ -49,22 +45,26 @@ const TodoColorRadioButton: React.FC<IProps> = ({
   };
 
   return (
-    <ColorFilterRow>
+    <ColorRadioRow>
       {TODOCOLORS.map((color) => (
         <div key={color.name}>
-          <ColorFilter
+          <ColorRadio
+            data-testid={color.hex}
             id={color.name}
+            name={color.name}
             type="radio"
-            name="color-selector"
             value={color.name}
-            color={color.hex}
             checked={color.hex === todoColor}
             onChange={handleTodoColor}
           />
-          <Label htmlFor={color.name} color={color.hex}></Label>
+          <Label
+            data-testid={color.name}
+            htmlFor={color.name}
+            color={color.hex}
+          ></Label>
         </div>
       ))}
-    </ColorFilterRow>
+    </ColorRadioRow>
   );
 };
 
