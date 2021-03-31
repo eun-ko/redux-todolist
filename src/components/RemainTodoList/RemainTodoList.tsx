@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import TODOCOLORS from '../constants/TodoColorList';
+import TODOCOLORS from '../../constants/TodoColorList';
 
-import {RootState} from "../modules";
+import { RootState } from '../../modules';
 
 const RemainTodoWrapper = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ const RemainTitle = styled.p`
   margin: 12px 0 10px 12px;
 `;
 
-const Color = styled.div<{backgroundColor:string}>`
+const Color = styled.div<{ backgroundColor: string }>`
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -32,24 +32,24 @@ const ColorWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const RemainTodoList:React.FC = () => {
-  const todos = useSelector((state:RootState) => state.todo);
+const Row = styled.div`
+  display: flex;
+`;
+
+const RemainTodoList: React.FC = () => {
+  const todos = useSelector((state: RootState) => state.todo);
   return (
     <RemainTodoWrapper>
       <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
       <ColorWrapper>
         {TODOCOLORS.map((todoColorConstant) => (
-          <>
-            <Color
-              key={todoColorConstant.name}
-              backgroundColor={todoColorConstant.hex}
-            />
+          <Row key={todoColorConstant.name}>
+            <Color backgroundColor={todoColorConstant.hex} />
             <span>{todoColorConstant.count}개</span>
-          </>
+          </Row>
         ))}
       </ColorWrapper>
     </RemainTodoWrapper>
   );
 };
 export default RemainTodoList;
-
