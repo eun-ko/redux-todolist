@@ -139,7 +139,14 @@ const TodoEditor: React.FC<IProps> = ({
     }
   };
 
-  const handleEditButton = () => {
+  const handleEditButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (todoColor === '' || todoContent === '') {
+      alert('내용과 색을 모두 지정해주세요');
+      e.preventDefault();
+    }
+
     const originalTodoColor = TODOCOLORS.find(
       (todoColorConstant) => todoColorConstant.hex === selectedTodo.todoColor
     );
@@ -185,6 +192,7 @@ const TodoEditor: React.FC<IProps> = ({
         <BroomIcon src={broomIcon} />
       </Row>
       <Input
+        data-testid="todoInput"
         defaultValue={text === '수정하기' ? selectedTodo.todoContent : ''}
         onChange={handleTodoInput}
         autoFocus
