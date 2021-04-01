@@ -9,7 +9,7 @@ const todos = [
     id: 2,
     todoContent: 'todoContent 예시2 : 주황',
     todoColor: '#ffc282',
-    done: false,
+    done: true,
   },
 ];
 
