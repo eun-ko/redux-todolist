@@ -40,7 +40,7 @@ const RemainTodoList: React.FC = () => {
   const todos = useSelector((state: RootState) => state.todo);
   return (
     <RemainTodoWrapper>
-      <RemainTitle>남은 TO-DO {todos.length}개</RemainTitle>
+      <RemainTitle>남은 TO-DO {todos && todos.length}개</RemainTitle>
       <ColorWrapper>
         {TODOCOLORS.map((todoColorConstant) => (
           <Row key={todoColorConstant.name}>
