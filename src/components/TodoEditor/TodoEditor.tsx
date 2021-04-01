@@ -60,7 +60,7 @@ const ToggleButton = styled.button`
   margin-top: 70px;
 `;
 
-const AddButton = styled.button`
+const SubmitButton = styled.button`
   width: 68px;
   height: 24px;
   padding: 4px 8px;
@@ -175,14 +175,14 @@ const TodoEditor: React.FC<IProps> = ({
       <Header text={text}></Header>
       <Row>
         <Title>{title}</Title>
-        <AddButton
-          data-testid="addBtn"
+        <SubmitButton
+          data-testid="submitBtn"
           role="button"
           onClick={text === '추가하기' ? handleAddButton : handleEditButton}
           type="submit"
         >
           {text}
-        </AddButton>
+        </SubmitButton>
       </Row>
       <Row>
         <TodoColorRadioButton
